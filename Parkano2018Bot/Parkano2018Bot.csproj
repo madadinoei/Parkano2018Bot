@@ -79,9 +79,9 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserPollCommand.cs" />
     <Compile Include="Enums\Team.cs" />
-    <Compile Include="Migrations\201806201437446_initial.cs" />
-    <Compile Include="Migrations\201806201437446_initial.Designer.cs">
-      <DependentUpon>201806201437446_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201806211003507_initial.cs" />
+    <Compile Include="Migrations\201806211003507_initial.Designer.cs">
+      <DependentUpon>201806211003507_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
@@ -97,8 +97,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806201437446_initial.resx">
-      <DependentUpon>201806201437446_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806211003507_initial.resx">
+      <DependentUpon>201806211003507_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

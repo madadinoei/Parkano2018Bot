@@ -9,6 +9,12 @@
         Iran = 5,
         Spain = 6,
         Portugal = 7,
-        Morocco = 8
+        Morocco = 8,
+        Australia = 9,
+        Peru = 10,
+        Denmark = 11,
+        France = 12,
+        Argentina=13,
+        Nigeria=14
     }
 }

@@ -13,7 +13,7 @@ namespace Parkano2018Bot.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201806201437446_initial"; }
+            get { return "201806211003507_initial"; }
         }
         
         string IMigrationMetadata.Source
