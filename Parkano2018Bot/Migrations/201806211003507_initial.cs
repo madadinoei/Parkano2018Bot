@@ -22,34 +22,36 @@ namespace Parkano2018Bot.Migrations
                 "dbo.Users",
                 c => new
                     {
-                        UserId = c.Guid(nullable: false),
+                        Id = c.Guid(nullable: false),
+                        TelegramUserId = c.Int(nullable: false),
                         FirstName = c.String(),
                         LastName = c.String(),
-                        Mobile = c.String(),
+                        PhoneNumber = c.String(),
                         Score = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.UserId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Polls",
                 c => new
                     {
-                        GameId = c.Guid(nullable: false),
+                        Id = c.Guid(nullable: false),
                         HomeGoal = c.Int(nullable: false),
                         AwayGoal = c.Int(nullable: false),
+                        GameId = c.Guid(nullable: false),
                         CanEdit = c.Boolean(nullable: false),
-                        User_UserId = c.Guid(),
+                        User_Id = c.Guid(),
                     })
-                .PrimaryKey(t => t.GameId)
-                .ForeignKey("dbo.Users", t => t.User_UserId)
-                .Index(t => t.User_UserId);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Users", t => t.User_Id)
+                .Index(t => t.User_Id);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Polls", "User_UserId", "dbo.Users");
-            DropIndex("dbo.Polls", new[] { "User_UserId" });
+            DropForeignKey("dbo.Polls", "User_Id", "dbo.Users");
+            DropIndex("dbo.Polls", new[] { "User_Id" });
             DropTable("dbo.Polls");
             DropTable("dbo.Users");
             DropTable("dbo.Games");

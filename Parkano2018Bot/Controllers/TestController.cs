@@ -8,6 +8,8 @@ using Parkano2018Bot.Models;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
+using static System.Data.Entity.Core.Objects.EntityFunctions;
 
 namespace Parkano2018Bot.Controllers
 {
@@ -44,14 +46,42 @@ namespace Parkano2018Bot.Controllers
     {
         public void Get()
         {
-            var telegramBotClient = Helper.RunBot();
-            using (var db = new ApplicationContext())
+            try
             {
-                var game = db.Games.OrderByDescending(x => x.MatchDateTime).Single();
-                telegramBotClient.SendTextMessageAsync(new ChatId("@Parkano2018"),
-                    $"نتیجه دیدار تیم {game.HomeTeam} و تیم {game.AwayTeam} چه میشود", ParseMode.Default, true, false, 0, null, CancellationToken.None);
+                var telegramBotClient = Helper.RunBot();
+                using (var db = new ApplicationContext())
+                {
+                    var game = db.Games.Where(x => x.MatchDateTime >= DateTime.Now).OrderByDescending(x => x.MatchDateTime).SingleOrDefault();
+                    var inlineKeyboard = new InlineKeyboardMarkup(new[]
+                    {
+                        new [] // first row
+                        {
+                            InlineKeyboardButton.WithCallbackData("1.1"),
+                            InlineKeyboardButton.WithCallbackData("1.2"),
+                        },
+                        new [] // second row
+                        {
+                            InlineKeyboardButton.WithCallbackData("2.1"),
+                            InlineKeyboardButton.WithCallbackData("2.2"),
+                        }
+                    });
+                     telegramBotClient.SendChatActionAsync(telegramBotClient.GetMeAsync().Result.Id, ChatAction.Typing);
 
+                     telegramBotClient.SendTextMessageAsync(
+                        telegramBotClient.GetMeAsync().Result.Id,
+                        "Choose",
+                        replyMarkup: inlineKeyboard);
+
+                    //return await telegramBotClient.SendTextMessageAsync(new ChatId("@Parkano2018"),
+                    //    $"نتیجه دیدار تیم {game.HomeTeam} و تیم {game.AwayTeam} چه میشود", ParseMode.Default, false, false, 50, inlineKeyboard);
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
     }
 
