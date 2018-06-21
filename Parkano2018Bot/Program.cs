@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using Parkano2018Bot.Models;
@@ -21,6 +22,12 @@ namespace Parkano2018Bot
     {
         private static readonly TelegramBotClient Bot = new TelegramBotClient("527433668:AAGJYOrhIzAGX2shDXmFBRlCBYif_imDsJI");
 
+        public static class Constants
+        {
+            public static string LastGameId = null;
+            public static string HomeOrAway = null;
+
+        }
         static void Main(string[] args)
         {
             string baseAddress = "http://localhost:9010/";
@@ -201,57 +208,68 @@ namespace Parkano2018Bot
                 var user = db.Users.AsQueryable().SingleOrDefault(x => x.TelegramUserId == callbackQuery.From.Id);
                 if (user != null)
                 {
-                    var gameId = Guid.Parse(callbackQuery.Data);
-                    var poll = user.Polls.SingleOrDefault(x => x.GameId == gameId);
-                    if (poll != null)
+                    try
                     {
-                        await Bot.SendTextMessageAsync(
-                            callbackQuery.Message.Chat.Id,
-                            "شما قبلا نتیجه این بازی را پیش بینی کرده اید");
-                    }
-                    else
-                    {
-                        var game = db.Games.AsQueryable().SingleOrDefault(x => x.Id == gameId);
-                        //await Bot.AnswerCallbackQueryAsync(
-                        //    callbackQuery.Id,
-                        //    $"Received {game.HomeTeam} - {game.AwayTeam}");
-
-                        await Bot.SendTextMessageAsync(
-                            callbackQuery.Message.Chat.Id,
-                            $"بازی انتخابی :  {game.HomeTeam} - {game.AwayTeam}" + "\n");
-                        //var rkb = new ReplyKeyboardMarkup(new List<KeyboardButton>
-                        //{
-                        //    new KeyboardButton("1"),
-                        //    new KeyboardButton("2")
-                        //},true,true);
-                        var inlineKeyboard = new InlineKeyboardMarkup(new List<InlineKeyboardButton>()
+                        var gameId = Guid.Parse(callbackQuery.Data);
+                        Constants.LastGameId = callbackQuery.Data;
+                        var poll = user.Polls.SingleOrDefault(x => x.GameId == gameId);
+                        if (poll != null)
                         {
-                            new InlineKeyboardButton()
-                            {
-                                Text = "1",
-                                CallbackData = "1"
-                            },new InlineKeyboardButton()
-                            {
-                                Text = "2",
-                                CallbackData = "2"
-                            },new InlineKeyboardButton()
-                            {
-                                Text = "3",
-                                CallbackData = "3"
-                            },new InlineKeyboardButton()
-                            {
-                                Text = "4",
-                                CallbackData = "4"
-                            },new InlineKeyboardButton()
-                            {
-                                Text = "5",
-                                CallbackData = "5"
-                            },
-                        });
-                        var message = await Bot.SendTextMessageAsync(
-                            callbackQuery.Message.Chat.Id,
-                            $"تعداد گل های {game.HomeTeam} را وارد کنید", ParseMode.Default, false, false, 0, inlineKeyboard);
+                            await Bot.SendTextMessageAsync(
+                                callbackQuery.Message.Chat.Id,
+                                "شما قبلا نتیجه این بازی را پیش بینی کرده اید");
+                        }
+                        else
+                        {
+                            var game = db.Games.AsQueryable().SingleOrDefault(x => x.Id == gameId);
+                            //await Bot.AnswerCallbackQueryAsync(
+                            //    callbackQuery.Message.Chat.Id.ToString(),
+                            //    $"Received {game.HomeTeam} - {game.AwayTeam}",false,null,0,CancellationToken.None);
 
+                            await Bot.SendTextMessageAsync(
+                                callbackQuery.Message.Chat.Id,
+                                $"بازی انتخابی :  {game.HomeTeam} - {game.AwayTeam}" + "\n");
+
+                            var inlineKeyboard = new InlineKeyboardMarkup(new List<InlineKeyboardButton>()
+                            {
+                                new InlineKeyboardButton()
+                                {
+                                    Text = "1",
+                                    CallbackData = "1"
+                                },new InlineKeyboardButton()
+                                {
+                                    Text = "2",
+                                    CallbackData = "2"
+                                },new InlineKeyboardButton()
+                                {
+                                    Text = "3",
+                                    CallbackData = "3"
+                                },new InlineKeyboardButton()
+                                {
+                                    Text = "4",
+                                    CallbackData = "4"
+                                },new InlineKeyboardButton()
+                                {
+                                    Text = "5",
+                                    CallbackData = "5"
+                                },
+                            });
+                            await Bot.SendTextMessageAsync(
+                                callbackQuery.Message.Chat.Id,
+                                $"تعداد گل های {game.HomeTeam} را وارد کنید", ParseMode.Default, false, false, 0, inlineKeyboard);
+
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.Message.Contains("Guid should contain 32 digits with 4 dashes"))
+                        {
+                            Console.WriteLine(Constants.LastGameId);
+                            var poll = user.Polls.SingleOrDefault(x => x.GameId == Guid.Parse(Constants.LastGameId));
+                            poll.
+
+                        }
                     }
                 }
                 else
