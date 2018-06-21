@@ -13,6 +13,8 @@
         Australia = 9,
         Peru = 10,
         Denmark = 11,
-        France = 12
+        France = 12,
+        Argentina=13,
+        Nigeria=14
     }
 }
