@@ -11,7 +11,7 @@ namespace Parkano2018Bot.Migrations
                 "dbo.Games",
                 c => new
                     {
-                        Id = c.Guid(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         HomeTeam = c.String(),
                         AwayTeam = c.String(),
                         MatchDateTime = c.DateTime(nullable: false),
@@ -38,7 +38,7 @@ namespace Parkano2018Bot.Migrations
                         Id = c.Guid(nullable: false),
                         HomeGoal = c.Int(nullable: false),
                         AwayGoal = c.Int(nullable: false),
-                        GameId = c.Guid(nullable: false),
+                        GameId = c.Int(nullable: false),
                         CanEdit = c.Boolean(nullable: false),
                         User_Id = c.Guid(),
                     })
