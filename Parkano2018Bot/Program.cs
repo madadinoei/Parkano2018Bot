@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Parkano2018Bot.Enums;
 using Parkano2018Bot.Models;
+using Parkano2018Bot.Properties;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
@@ -35,7 +36,7 @@ namespace Parkano2018Bot
         }
         static void Main(string[] args)
         {
-            string baseAddress = "http://localhost:9010/";
+            string baseAddress = Settings.Default.host;
             var me = Bot.GetMeAsync().Result;
             Console.Title = me.Username;
 
@@ -50,6 +51,7 @@ namespace Parkano2018Bot
             Bot.StartReceiving(Array.Empty<UpdateType>());
             using (var db = new ApplicationContext())
             {
+                var count = db.Games.Count();
                 db.SaveChanges();
             }
 

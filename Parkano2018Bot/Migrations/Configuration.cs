@@ -14,6 +14,7 @@ namespace Parkano2018Bot.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(ApplicationContext applicationContext)
@@ -21,25 +22,7 @@ namespace Parkano2018Bot.Migrations
 
             var games = new List<Game>
             {
-                //new Game()
-                //{
-                //    HomeTeam = Team.Iran.GetDescription(),
-                //    AwayTeam = Team.Spain.GetDescription(),
-                //    MatchDateTime = new DateTime(2018, 06, 20, 19, 00, 00, 00, 00)
-                //}
-                //,new Game()
-                //{
-                //    HomeTeam = Team.Australia.GetDescription(),
-                //    AwayTeam = Team.Peru.GetDescription(),
-                //    MatchDateTime = new DateTime(2018, 06, 21, 16, 00, 00, 00, 00)
-                //}
-                //,new Game()
-                //{
-                //    HomeTeam = Team.Denmark.GetDescription(),
-                //    AwayTeam = Team.France.GetDescription(),
-                //    MatchDateTime = new DateTime(2018, 06, 23, 19, 00, 00, 00, 00)
-                //},
-                new Game()
+               new Game()
                 {
                     HomeTeam = Team.Belgium.GetDescription(),
                     AwayTeam = Team.Tunisia.GetDescription(),
