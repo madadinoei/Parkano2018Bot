@@ -21,28 +21,60 @@ namespace Parkano2018Bot.Migrations
 
             var games = new List<Game>
             {
+                //new Game()
+                //{
+                //    HomeTeam = Team.Iran.GetDescription(),
+                //    AwayTeam = Team.Spain.GetDescription(),
+                //    MatchDateTime = new DateTime(2018, 06, 20, 19, 00, 00, 00, 00)
+                //}
+                //,new Game()
+                //{
+                //    HomeTeam = Team.Australia.GetDescription(),
+                //    AwayTeam = Team.Peru.GetDescription(),
+                //    MatchDateTime = new DateTime(2018, 06, 21, 16, 00, 00, 00, 00)
+                //}
+                //,new Game()
+                //{
+                //    HomeTeam = Team.Denmark.GetDescription(),
+                //    AwayTeam = Team.France.GetDescription(),
+                //    MatchDateTime = new DateTime(2018, 06, 23, 19, 00, 00, 00, 00)
+                //},
                 new Game()
                 {
-                    Id = Guid.NewGuid(),
-                    HomeTeam = Team.Iran.ToString(),
-                    AwayTeam = Team.Spain.ToString(),
-                    MatchDateTime = new DateTime(2018, 06, 20, 19, 00, 00, 00, 00)
-                }
-                ,new Game()
+                    HomeTeam = Team.Belgium.GetDescription(),
+                    AwayTeam = Team.Tunisia.GetDescription(),
+                    MatchDateTime=new DateTime(2018, 06, 23, 16, 30, 00, 00, 00)
+                },
+                new Game()
                 {
-                    Id = Guid.NewGuid(),
-                    HomeTeam = Team.Australia.ToString(),
-                    AwayTeam = Team.Peru.ToString(),
-                    MatchDateTime = new DateTime(2018, 06, 21, 16, 00, 00, 00, 00)
-                }
-                ,new Game()
+                    HomeTeam = Team.KoreaRepublic.GetDescription(),
+                    AwayTeam = Team.Mexico.GetDescription(),
+                    MatchDateTime=new DateTime(2018, 06, 23, 19, 30, 00, 00, 00)
+                },  new Game()
                 {
-                    Id = Guid.NewGuid(),
-                    HomeTeam = Team.Denmark.ToString(),
-                    AwayTeam = Team.France.ToString(),
-                    MatchDateTime = new DateTime(2018, 06, 21, 19, 00, 00, 00, 00)
-                }
+                    HomeTeam = Team.Germany.GetDescription(),
+                    AwayTeam = Team.Sweden.GetDescription(),
+                    MatchDateTime=new DateTime(2018, 06, 23, 22, 30, 00, 00, 00)
+                },  new Game()
+                {
+                    HomeTeam = Team.England.GetDescription(),
+                    AwayTeam = Team.Panama.GetDescription(),
+                    MatchDateTime=new DateTime(2018, 06, 23, 16, 30, 00, 00, 00)
+                },  new Game()
+                {
+                    HomeTeam = Team.Japan.GetDescription(),
+                    AwayTeam = Team.Senegal.GetDescription(),
+                    MatchDateTime=new DateTime(2018, 06, 23, 19, 30, 00, 00, 00)
+                },  new Game()
+                {
+                    HomeTeam = Team.Poland.GetDescription(),
+                    AwayTeam = Team.Colombia.GetDescription(),
+                    MatchDateTime=new DateTime(2018, 06, 23, 22, 30, 00, 00, 00)
+                },
             };
+            applicationContext.Database.ExecuteSqlCommand("delete from Games");
+            applicationContext.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('[Games]', RESEED, 0)");
+
             applicationContext.Games.AddRange(games);
 
             //  This method will be called after migrating to the latest version.
